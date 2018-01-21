@@ -1,0 +1,38 @@
+nav {
+    background:darken($myColor, 20%);
+    height:2.5em;
+    line-height:2em;
+    width: 100%;
+   
+    ul {
+        display:flex;
+        flex-direction:row;
+        list-style-type: none;
+        
+        li {
+            padding:0 1em;
+            position:relative;
+            width: 100px;
+        }
+        
+        li:hover {
+           a {
+               color: darken($myColor, 5%);
+           }
+        }
+    }
+    
+    a {
+        text-decoration:none;
+        color:#fff;
+        
+        &:after {
+            bottom:0;
+            content:"";
+            left:0;
+            position:absolute;
+            right:0;
+            top:0;
+        }
+    }
+}

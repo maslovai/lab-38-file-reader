@@ -1,0 +1,26 @@
+@import './_vars';
+@import './navbar';
+@import './footer';
+@import './note-form';
+@import './signin';
+
+body{
+    div{
+        width:100%;
+        min-height: 20em;
+        border:solid, 0.5em, black;
+        background-color:lighten($myColor, 25%);
+        color: darken($myColor,30%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        // align-content: center;
+        justify-content: space-around;
+        align-items: center;
+        padding-bottom: 2em;
+        ul{
+            list-style-type: none;
+        }
+        
+    }    
+}

@@ -1,0 +1,44 @@
+.noteForm{
+    width:100%;
+    margin-top:1em;
+    padding:1em;
+    height:5em;
+    background-color:lighten($myColor, 25%);
+    color: darken($myColor,30%);
+    display: flex;
+    flex-direction: column;
+    justify-content:space-between;
+    align-items: center;
+    align-content: center;
+    input{
+        min-width: 20em;
+        height:2em;
+    }
+    button{
+        width:10em;
+        margin-top:1em;
+        border-bottom-color: black;
+    }
+}
+.noteItems{
+    display:flex;
+    flex-direction: row;
+    align-items: center; 
+    min-width: 20em;
+    padding: 0.5em; 
+    a{
+        margin: 0.5em;
+    }  
+}
+.notelistForm{
+    input{
+        min-width:20em;
+        background: lighten($myColor, 25%);
+        border:none;
+    }
+   
+    button{
+        border-bottom-color: black; 
+        margin-left: 1em;
+    }
+}
