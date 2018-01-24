@@ -18,7 +18,9 @@ app.use(
 )
 
 app.use (require('../routes/auth-route'));
-app.use(require('../routes/noteRouter'));
+app.use(require('../routes/user-router'));
+app.use(require('../routes/note-router'));
+
 
 app.all('*', (req, res, next) => {
      next({statusCode:404, message:'route not found'});

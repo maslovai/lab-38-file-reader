@@ -7,15 +7,21 @@ export const authSignin = (user={}) => dispatch=>{
     console.log("in authSignin , token", token);
     if(token) {
         // console.log('in get with token',token)
-        dispatch(setToken(token));
-        return;
-    }
+        return superagent.get(`${AUTH}/api/validate`)
+        .set('Authorization', 'Bearer ' + token)
+        .then(res => {
+            dispatch(setUser(res.body));
+            return res;
+        })
+        .catch(err => console.error('Authenticaton Error:', err.message));
+    };   
+
     return superagent.get(`${AUTH}/api/signin`)
     .withCredentials()
     .auth(user.username, user.password)
     .then(res=>{
-        // console.log('in actions get, res:::::', res)
-        dispatch(setToken(res.text));
+        console.log('in actions get, res:::::', res)
+        dispatch(setUser(res.body));
         return res
     })
 }
@@ -26,7 +32,7 @@ export const authSignup = user => dispatch => {
     .send(user)
     .then(res=>{
         // console.log("in authSignup .get", res)
-        dispatch(setToken(res.text));
+        dispatch(setUser(res.body));
         return res;
     })
 }
@@ -35,10 +41,10 @@ export const authSignout =()=>({
     type:"DLELTE_AUTH_TOKEN"
 })
 
-const setToken= token => ({
-    type:"SET_AUTH_TOKEN",
-    payload:token
-})
+// const setToken= token => ({
+//     type:"SET_AUTH_TOKEN",
+//     payload:token
+// })
 
 const setUser = auth => ({
     type: "SET_AUTH_USER",

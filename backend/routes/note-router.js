@@ -1,6 +1,6 @@
 'use strict';
-const Note = require('../models/note')
-const bearerAuth = require('../lib/middleware/bearer-auth')
+const Note = require('../models/note');
+const bearerAuth = require('../lib/middleware/bearer-auth');
 const bodyParser = require('body-parser').json();
 const mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');

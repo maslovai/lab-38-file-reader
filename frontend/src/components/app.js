@@ -7,7 +7,7 @@ import Footer from './footer';
 import Navbar from './navbar';
 import Home from './home';
 import Notes from './notes/notes-container';
-import Profile from './auth/profile';
+import Profile from './profile/profile';
 
 class App extends React.Component {
 

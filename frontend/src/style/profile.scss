@@ -1,0 +1,12 @@
+.profile{
+    input{
+        min-width:20em;
+        background: lighten($myColor, 25%);
+        border:none;
+    }
+   
+    button{
+        border-bottom-color: black; 
+        margin-left: 1em;
+    }
+}
