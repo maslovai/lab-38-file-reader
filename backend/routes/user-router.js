@@ -25,13 +25,13 @@ userRouter.get('/api/user/get', bearerAuth,(req, res, next) => {
 
 userRouter.put(`/api/user/:id`, bearerAuth, bodyParser, (req, res, next)=>{
     console.log('in edit user', req.params);
-        User.findOne({_id:req.params._id})
+        User.findOne({_id:req.params.id})
         .then(user=>{
             if (!req.body.content&!req.body._id) return next({statusCode:400, message: 'no body'});
             if(!user) return next({statusCode:404, message: 'User not found'});
                 Object.assign(user, req.body)
                 user.save()
-                .then(res.send(res.status(200).send(user)))
+                .then(res.send(user))
                 .catch(err => res.send(err))
         })
         .catch(next)
