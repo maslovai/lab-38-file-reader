@@ -1,12 +1,32 @@
 .profile{
+    display: flex;
+    flex-direction:column;
+    justify-content: center;
     input{
+        margin-left:2em;
         min-width:20em;
         background: lighten($myColor, 25%);
         border:none;
+        font-size: 1.2em;
     }
    
     button, .file{
         border-bottom-color: black; 
-        margin:0 2em;
+        margin:0 2em;  
     }
+    button{
+        margin-top:1em;
+        width:10em;
+    }
+    figure{
+        border: 1px solid $myColor;
+        background:  lighten($myColor, 15%);
+        text-align: center;
+        width:150px;
+        img{
+            margin-top:1em;
+            width:120px;
+        }
+    }
+
 }
