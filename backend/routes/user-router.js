@@ -1,7 +1,7 @@
 'use strict';
 const User = require('../models/user')
 const bearerAuth = require('../lib/middleware/bearer-auth')
-const bodyParser = require('body-parser').json();
+const bodyParser = require('../lib/middleware/body-parser');
 const mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 const userRouter = module.exports = require('express').Router();
@@ -23,19 +23,26 @@ userRouter.get('/api/user/get', bearerAuth,(req, res, next) => {
     .catch(err => res.send(err))    
 })
 
-userRouter.put(`/api/user/:id`, bearerAuth, bodyParser, (req, res, next)=>{
-    console.log('in edit user', req.params);
-        User.findOne({_id:req.params.id})
-        .then(user=>{
-            if (!req.body.content&!req.body._id) return next({statusCode:400, message: 'no body'});
-            if(!user) return next({statusCode:404, message: 'User not found'});
-                Object.assign(user, req.body)
-                user.save()
-                .then(res.send(user))
-                .catch(err => res.send(err))
-        })
-        .catch(next)
+userRouter.put(`/api/user/:id`, bodyParser, bearerAuth, (req, res, next)=>{
+    console.log('in edit user::::::::::::::::', req.params.id);
+    User.findOne({_id:req.params.id})
+    .then(user=>{
+        console.log('in user router update', user);
+        if(!user) return next({statusCode:404, message: 'User not found'});
+        Object.assign(user, req.body);
+        user.save()
+            .then(user=> {
+                // console.log('saving image::::', req.files.length)
+                if( req.files && req.files.length  ) { 
+                return user.attachFiles(req.files);
+            }
+            })
+        .then(res.send(user))
+        .catch(err => res.send(err))
+    })    
+   
 })
+
 
 // userRouter.delete(`/api/user/delete`, bearerAuth, bodyParser,(req, res, next)=>{
 //     console.log('in user router delete:::::', req.body);

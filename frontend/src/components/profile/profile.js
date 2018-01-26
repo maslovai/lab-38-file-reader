@@ -2,7 +2,7 @@ import React from 'react';
 
 import {connect} from 'react-redux';
 import * as actions from './actions'
-import Auth, {renderIf} from '../auth/auth';
+import Auth from '../auth/auth';
 
 const photoToDataUrl = file => {
     return new Promise((resolve, reject) =>{
@@ -11,6 +11,9 @@ const photoToDataUrl = file => {
       reader.addEventListener('error', () => reject(reader.error));
       return file ? reader.readAsDataURL(file) : reject(new Error('USAGE ERROR: requires file'));
     })
+}
+const renderIf = (test, component, alternative) => {
+    return test ? component : alternative
 }
 
 class Profile extends React.Component {
@@ -22,15 +25,19 @@ class Profile extends React.Component {
             avatar:'',
             avatarFile:''
         }
-        console.log('in profile, props:', this.props)
-        this.state = Object.assign(initialState, this.props.profile)
+        // console.log('in profile, props:', this.props.user);
+
+        this.state = Object.assign(initialState, this.props.profile);
+        // console.log('in profile, state:', this.state);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleImage = this.handleImage.bind(this);
     }
 
-    componentWillReceiveProps(){
-        this.setState(this.props.profile)
+    componentWillReceiveProps(props){
+        if (props.profile) { this.setState(props.profile); }
+        let preview = null;
+        this.setState({preview});
     }
 
     handleChange(e) { 
@@ -41,20 +48,25 @@ class Profile extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
         this.props.updateUser(Object.assign({}, this.props.profile, this.state));
-        console.log(this.state)
+        // console.log(this.state)
     }
 
     handleImage(e){
-
+        let {files} = e.target;
+        let avatarFile = files[0];
+        console.log("in handle image",avatarFile);
+        this.setState({avatarFile});
+        photoToDataUrl(avatarFile)
+        .then(preview=>{  this.setState({preview}); console.log('state::::', this.state.preview); })
+        .catch(err=>console.err)
     }
 
 render(){
-    
+    let hasPreview = this.state.preview || undefined;
     return(
         <Auth>
-            <h2>Welcome {this.props.profile.username}</h2>
+            <h2>Welcome {this.props.profile.username}!</h2>
             <form className = "profile" onSubmit = {this.handleSubmit}>
-            
             <label>
             <span>Name</span>
                 <input
@@ -70,14 +82,19 @@ render(){
                     <img src = {this.state.avatar}/>
                     <figcaption>Current Avatar</figcaption>
                 </figure>
-            </label>
-            <label>
+            {
+                renderIf(hasPreview,
                 <figure>
                     <img src = {this.state.preview}/>
                     <figcaption>Preview Avatar</figcaption>
-                </figure>
+                </figure>, 
+                null
+                )
+            }
+                
             </label>
             <input 
+                className="file"
                 name="avatar"
                 type="file"
                 onChange={this.handleImage}
