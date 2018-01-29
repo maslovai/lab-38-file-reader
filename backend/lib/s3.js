@@ -4,7 +4,7 @@ const AWS = require('aws-sdk');
 
 AWS.config.update({
     accessKeyId: process.env.ACCESS_ID_Key||AKIAJJCMRIDMVQH4A2RQ,
-    secretAccessKey: process.env.SECRET_ACCESS_Key||zd891NhsnZwRkhD7K35JXhIK6jADqCDwHxNJ9XbQ
+    secretAccessKey: process.env.SECRET_ACCESS_Key
     // "region": "sa-east-1"   <- If you want send something to your bucket, you need take off this settings, because the S3 are global. 
 });
 const s3 = new AWS.S3()
